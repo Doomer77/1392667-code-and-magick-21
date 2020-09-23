@@ -27,7 +27,7 @@ const Bar = {
 };
 
 
-let getMaxElement = arr => {
+let getMaxElement = (arr) => {
   return Math.max.apply(null, arr);
 };
 
