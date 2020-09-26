@@ -1,6 +1,6 @@
 'use strict';
 
-const Cloud = {
+const CLOUD = {
   X: 100,
   Y: 10,
   WIDTH: 420,
@@ -14,14 +14,14 @@ const Cloud = {
   SHADOW_COLOR: 'rgba(0, 0, 0, 0.7)'
 };
 
-const Text = {
+const TEXT = {
   FONT_SIZE: 16,
   FONT_FAMILY: 'PT Mono',
   COLOR: '#000',
   GAP: 4
 };
 
-const Bar = {
+const BAR = {
   WIDTH: 40,
   MAX_HEIGHT: 150
 };
@@ -50,41 +50,11 @@ let renderText = (ctx, options, x, y, text, baseline) => {
   ctx.fillText(text, x, y);
 };
 
-let renderProngs = (ctx, cloud, x, y, reverse) => {
-  let prongX = x + cloud.WIDTH;
-  let prongY = y;
-  let prongHalf = cloud.HEIGHT / (2 * cloud.PRONGS_QUANTITY);
-  let prongLedge = -cloud.PRONGS_LEDGE;
-
-  if (reverse) {
-    prongX = x;
-    prongY = y + cloud.HEIGHT;
-    prongHalf = -prongHalf;
-    prongLedge = -prongLedge;
-  }
-
-  for (let i = 1; i <= 2 * cloud.PRONGS_QUANTITY; i++) {
-    if (i % 2 !== 0) {
-      ctx.lineTo(prongX, prongY + i * prongHalf);
-    } else {
-      ctx.lineTo(prongX + prongLedge, prongY + i * prongHalf);
-    }
-  }
-};
-
-let renderCloud = (ctx, cloud, x, y, color) => {
-  ctx.beginPath();
-  ctx.moveTo(x + cloud.PRONGS_LEDGE, y);
-
-  ctx.lineTo(x + cloud.WIDTH - cloud.PRONGS_LEDGE, y);
-  renderProngs(ctx, Cloud, x, y);
-  ctx.lineTo(x + cloud.PRONGS_LEDGE, y + cloud.HEIGHT);
-  renderProngs(ctx, Cloud, x, y, true);
-
-  ctx.stroke();
-  ctx.closePath();
+let renderCloud = (ctx, x, y, color) => {
   ctx.fillStyle = color;
-  ctx.fill();
+  ctx.fillRect(x, y, CLOUD.WIDTH, CLOUD.HEIGHT);
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, CLOUD.WIDTH, CLOUD.HEIGHT);
 };
 
 let renderHistogram = (ctx, shell, bar, labels, data) => {
@@ -98,24 +68,24 @@ let renderHistogram = (ctx, shell, bar, labels, data) => {
     itemX = histogramX + (bar.WIDTH + barMargin) * i;
     currentBarHeight = bar.MAX_HEIGHT * Math.round(data[i]) / getMaxElement(data);
 
-    renderText(ctx, Text, itemX, histogramY, labels[i], 'bottom');
-    renderText(ctx, Text, itemX, histogramY - Text.FONT_SIZE - Text.GAP * 2 - currentBarHeight, Math.round(data[i]), 'bottom');
+    renderText(ctx, TEXT, itemX, histogramY, labels[i], 'bottom');
+    renderText(ctx, TEXT, itemX, histogramY - TEXT.FONT_SIZE - TEXT.GAP * 2 - currentBarHeight, Math.round(data[i]), 'bottom');
 
     ctx.fillStyle = (labels[i] === 'Вы') ? '#f00' : 'hsl(240, ' + getRandomNum(0, 100) + '%, 50%)';
 
-    ctx.fillRect(itemX, histogramY - Text.FONT_SIZE - Text.GAP, bar.WIDTH, -currentBarHeight);
+    ctx.fillRect(itemX, histogramY - TEXT.FONT_SIZE - TEXT.GAP, bar.WIDTH, -currentBarHeight);
   }
 };
 
 window.renderStatistics = (ctx, names, times) => {
-  let initialX = Cloud.X + Cloud.HORIZONTAL_GAP;
-  let initialY = Cloud.Y + Cloud.VERTICAL_GAP;
+  let initialX = CLOUD.X + CLOUD.HORIZONTAL_GAP;
+  let initialY = CLOUD.Y + CLOUD.VERTICAL_GAP;
 
-  renderCloud(ctx, Cloud, Cloud.X + Cloud.SHADOW_OFFSET, Cloud.Y + Cloud.SHADOW_OFFSET, Cloud.SHADOW_COLOR);
-  renderCloud(ctx, Cloud, Cloud.X, Cloud.Y, Cloud.COLOR);
+  renderCloud(ctx, CLOUD.X + CLOUD.SHADOW_OFFSET, CLOUD.Y + CLOUD.SHADOW_OFFSET, CLOUD.SHADOW_COLOR);
+  renderCloud(ctx, CLOUD.X, CLOUD.Y, CLOUD.COLOR);
 
-  renderText(ctx, Text, initialX, initialY, 'Ура вы победили!');
-  renderText(ctx, Text, initialX, initialY + Text.FONT_SIZE + Text.GAP, 'Список результатов:');
+  renderText(ctx, TEXT, initialX, initialY, 'Ура вы победили!');
+  renderText(ctx, TEXT, initialX, initialY + TEXT.FONT_SIZE + TEXT.GAP, 'Список результатов:');
 
-  renderHistogram(ctx, Cloud, Bar, names, times);
+  renderHistogram(ctx, CLOUD, BAR, names, times);
 };
