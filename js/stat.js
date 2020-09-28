@@ -5,9 +5,7 @@ const CLOUD = {
   Y: 10,
   WIDTH: 420,
   HEIGHT: 270,
-  PRONGS_LEDGE: 5,
-  PRONGS_QUANTITY: 10,
-  HORIZONTAL_GAP: 55,
+  HORIZONTAL_GAP: 50,
   VERTICAL_GAP: 15,
   COLOR: '#fff',
   SHADOW_OFFSET: 10,
@@ -58,9 +56,9 @@ let renderCloud = (ctx, x, y, color) => {
 };
 
 let renderHistogram = (ctx, shell, bar, labels, data) => {
-  let histogramX = shell.X + shell.HORIZONTAL_GAP;
+  let histogramX = shell.X + shell.HORIZONTAL_GAP - shell.SHADOW_OFFSET;
   let histogramY = shell.Y + shell.HEIGHT - shell.VERTICAL_GAP;
-  let barMargin = getGapBetween(shell.WIDTH - shell.HORIZONTAL_GAP * 2, bar.WIDTH, data.length);
+  let barMargin = getGapBetween(shell.WIDTH - (shell.HORIZONTAL_GAP * 2) - shell.SHADOW_OFFSET, bar.WIDTH, data.length);
   let itemX;
   let currentBarHeight;
 
@@ -78,8 +76,8 @@ let renderHistogram = (ctx, shell, bar, labels, data) => {
 };
 
 window.renderStatistics = (ctx, names, times) => {
-  let initialX = CLOUD.X + CLOUD.HORIZONTAL_GAP;
-  let initialY = CLOUD.Y + CLOUD.VERTICAL_GAP;
+  let initialX = CLOUD.X + CLOUD.HORIZONTAL_GAP - CLOUD.SHADOW_OFFSET * 3;
+  let initialY = CLOUD.Y + CLOUD.VERTICAL_GAP + CLOUD.SHADOW_OFFSET / 2 ;
 
   renderCloud(ctx, CLOUD.X + CLOUD.SHADOW_OFFSET, CLOUD.Y + CLOUD.SHADOW_OFFSET, CLOUD.SHADOW_COLOR);
   renderCloud(ctx, CLOUD.X, CLOUD.Y, CLOUD.COLOR);
