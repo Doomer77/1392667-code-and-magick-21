@@ -77,7 +77,7 @@ let renderHistogram = (ctx, shell, bar, labels, data) => {
 
 window.renderStatistics = (ctx, names, times) => {
   let initialX = CLOUD.X + CLOUD.HORIZONTAL_GAP - CLOUD.SHADOW_OFFSET * 3;
-  let initialY = CLOUD.Y + CLOUD.VERTICAL_GAP + CLOUD.SHADOW_OFFSET / 2 ;
+  let initialY = CLOUD.Y + CLOUD.VERTICAL_GAP + CLOUD.SHADOW_OFFSET / 2;
 
   renderCloud(ctx, CLOUD.X + CLOUD.SHADOW_OFFSET, CLOUD.Y + CLOUD.SHADOW_OFFSET, CLOUD.SHADOW_COLOR);
   renderCloud(ctx, CLOUD.X, CLOUD.Y, CLOUD.COLOR);
