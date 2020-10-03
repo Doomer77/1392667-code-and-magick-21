@@ -1,16 +1,23 @@
 'use strict';
 
-let setupBlock = document.querySelector('.setup');
-setupBlock.classList.remove('hidden');
+const monipulateElementDOM = (element, removeClass) => {
+  const result = document.querySelector(element);
+  if (removeClass) {
+    return result.classList.remove(removeClass);
+  } else {
+    return result;
+  }
+};
 
-let setupSimilar = document.querySelector('.setup-similar');
-setupSimilar.classList.remove('hidden');
+monipulateElementDOM('.setup', 'hidden');
+monipulateElementDOM('.setup-similar', 'hidden');
+const setupSimilarList = monipulateElementDOM('.setup-similar-list');
+const wizardTemplate = monipulateElementDOM('#similar-wizard-template');
+const wizardTemplateContent = wizardTemplate.content.querySelector('.setup-similar-item');
 
-let setupSimilarList = document.querySelector('.setup-similar-list');
-let wizardTemplate = document.querySelector('#similar-wizard-template');
-let wizardTemplateContent = wizardTemplate.content.querySelector('.setup-similar-item');
+const WIZARD_COUNT = 4;
 
-const WIZARDSDATA = {
+const WIZARDS_DATA = {
   NAMES: [
     'Иван',
     'Хуан Себастьян',
@@ -48,13 +55,13 @@ const WIZARDSDATA = {
   ]
 };
 
-const getRandomValue = (arrey) => {
-  return arrey[Math.floor(Math.random() * arrey.length)];
+const getRandomValue = (array) => {
+  return array[Math.floor(Math.random() * array.length)];
 };
 
 const createWizards = (wizardData) => {
   let wizards = [];
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < WIZARD_COUNT; i++) {
     wizards.push({
       name: `${getRandomValue(wizardData.NAMES)} ${getRandomValue(wizardData.SURNAMES)}`,
       coatColor: getRandomValue(wizardData.COATCOLORS),
@@ -81,7 +88,7 @@ const getWizards = (wizards) => {
 };
 
 const renderWizardsSetup = () => {
-  let wizards = createWizards(WIZARDSDATA);
+  let wizards = createWizards(WIZARDS_DATA);
   let similarWizards = getWizards(wizards);
 
   setupSimilarList.appendChild(similarWizards);
