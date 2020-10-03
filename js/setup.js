@@ -38,7 +38,7 @@ const WIZARDS_DATA = {
     'Нионго',
     'Ирвинг'
   ],
-  COATCOLORS: [
+  COAT_COLORS: [
     'rgb(101, 137, 164)',
     'rgb(241, 43, 107)',
     'rgb(146, 100, 161)',
@@ -46,7 +46,7 @@ const WIZARDS_DATA = {
     'rgb(215, 210, 55)',
     'rgb(0, 0, 0)'
   ],
-  EYESCOLORS: [
+  EYES_COLORS: [
     'black',
     'red',
     'blue',
@@ -64,8 +64,8 @@ const createWizards = (wizardData) => {
   for (let i = 0; i < WIZARD_COUNT; i++) {
     wizards.push({
       name: `${getRandomValue(wizardData.NAMES)} ${getRandomValue(wizardData.SURNAMES)}`,
-      coatColor: getRandomValue(wizardData.COATCOLORS),
-      eyesColor: getRandomValue(wizardData.EYESCOLORS)
+      coatColor: getRandomValue(wizardData.COAT_COLORS),
+      eyesColor: getRandomValue(wizardData.EYES_COLORS)
     });
   }
   return wizards;
