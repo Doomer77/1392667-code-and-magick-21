@@ -112,121 +112,80 @@ const renderWizardsSetup = () => {
 
 renderWizardsSetup();
 
-//  opening and closing the hero settings window
-const windowSetups = monipulateElementDOM('.setup');
-const windowSetupsOpen = monipulateElementDOM('.setup-open');
-const windowSetupsClose = monipulateElementDOM('.setup-close');
-const submitBtn = monipulateElementDOM('.setup-submit');
-const form = monipulateElementDOM('form');
+// opening / closing the character customization window
+const openingClosingWindowWizards = () => {
+  const setupWindow = monipulateElementDOM('.setup');
+  const wizardName = setupWindow.querySelector('.setup-user-name');
+  const openBtn = monipulateElementDOM('.setup-open');
+  const closeBtn = setupWindow.querySelector('.setup-close');
 
-const onSetupEscPress = (evt) => {
-  if (evt.key === KEY_NAME.ESC) {
-    evt.preventDefault();
-    closeSetup();
-  }
-};
+  const openSetup = () => {
+    setupWindow.classList.remove('hidden');
+    document.addEventListener('keydown', onEscPress);
+  };
 
-const openSetup = () => {
-  windowSetups.classList.remove('hidden');
-  document.addEventListener('keydown', onSetupEscPress);
-};
+  const closeSetup = () => {
+    setupWindow.classList.add('hidden');
+    document.removeEventListener('keydown', onEscPress);
+  };
 
-const closeSetup = () => {
-  windowSetups.classList.add('hidden');
-  document.removeEventListener('keydown', onSetupEscPress);
-};
+  var onEscPress = (evt) => {
+    if (evt.key === KEY_NAME.ESC && evt.target !== wizardName) {
+      closeSetup();
+    }
+  };
 
-windowSetupsOpen.addEventListener('click', () => {
-  openSetup();
-});
+  closeBtn.addEventListener('click', closeSetup);
+  openBtn.addEventListener('click', openSetup);
 
-windowSetupsOpen.addEventListener('keydown', (evt) => {
-  if (evt.key === KEY_NAME.ENTER) {
-    openSetup();
-  }
-});
+  openBtn.addEventListener('keydown', (evt) => {
+    if (evt.key === KEY_NAME.ENTER) {
+      openSetup();
+    }
+  });
 
-windowSetupsClose.addEventListener('click', () => {
-  closeSetup();
-});
-
-windowSetupsClose.addEventListener('keydown', (evt) => {
-  if (evt.key === KEY_NAME.ENTER) {
-    closeSetup();
-  }
-});
-
-const NAME_LENGTH = {
-  MIN: 2,
-  MAX: 25
-};
-
-//  checking the player name input field
-const userNameInput = monipulateElementDOM('.setup-user-name');
-
-userNameInput.addEventListener('input', () => {
-  let valueLength = userNameInput.value.length;
-
-  if (valueLength < NAME_LENGTH.MIN) {
-    userNameInput.setCustomValidity(`Ещё ${NAME_LENGTH.MIN - valueLength} симв.`);
-  } else if (valueLength > NAME_LENGTH.MAX) {
-    userNameInput.setCustomValidity(`Удалите лишние ${valueLength - NAME_LENGTH.MAX} симв.`);
-  } else {
-    userNameInput.setCustomValidity('');
-  }
-
-  userNameInput.reportValidity();
-});
-
-//  hero customization
-const wizard = monipulateElementDOM('.setup-wizard-appearance');
-const wizardCoat = wizard.querySelector('.wizard-coat');
-const wizardCoatColor = wizard.querySelector('input[name="coat-color"]');
-const wizardEyes = wizard.querySelector('.wizard-eyes');
-const wizardEyesColor = wizard.querySelector('input[name="eyes-color"]');
-
-const fireball = monipulateElementDOM('.setup-fireball-wrap');
-const fireballColor = fireball.querySelector('input[name="fireball-color"]');
-
-
-const getNextColor = (colors, currentColor) => {
-  let currentColorIndex = colors.indexOf(currentColor);
-
-  return currentColorIndex !== colors.length - 1 ? colors[currentColorIndex + 1] : colors[0];
-};
-
-const onCoatClick = () => {
-  wizardCoatColor.value = getNextColor(WIZARDS_DATA.COAT_COLORS, wizardCoatColor.value);
-  wizardCoat.style.fill = wizardCoatColor.value;
-};
-
-const onEyesClick = () => {
-  wizardEyesColor.value = getNextColor(WIZARDS_DATA.EYES_COLORS, wizardEyesColor.value);
-  wizardEyes.style.fill = wizardEyesColor.value;
-};
-
-const onFireballClick = () => {
-  fireballColor.value = getNextColor(WIZARDS_DATA.FIREBALL_COLORS, fireballColor.value);
-  fireball.style.background = fireballColor.value;
-};
-const coatValue = wizardCoat.addEventListener('click', onCoatClick);
-const eyesValue = wizardEyes.addEventListener('click', onEyesClick);
-const fireballValue = fireball.addEventListener('click', onFireballClick);
-
-//  submit form
-const submitSetup = () => {
-  form.addEventListener('submit', () => {
-    return {
-      userNameInput,
-      coatValue,
-      eyesValue,
-      fireballValue
-    };
+  closeBtn.addEventListener('keydown', (evt) => {
+    if (evt.key === KEY_NAME.ENTER) {
+      closeSetup();
+    }
   });
 };
 
-submitBtn.addEventListener('keydown', (evt) => {
-  if (evt.key === KEY_NAME.ENTER) {
-    submitSetup();
-  }
-});
+// customize the wizard
+const customizeWizard = () => {
+  const wizard = monipulateElementDOM('.setup-wizard-appearance');
+  const wizardCoat = wizard.querySelector('.wizard-coat');
+  const wizardCoatColor = wizard.querySelector('input[name="coat-color"]');
+  const wizardEyes = wizard.querySelector('.wizard-eyes');
+  const wizardEyesColor = wizard.querySelector('input[name="eyes-color"]');
+  const fireball = monipulateElementDOM('.setup-fireball-wrap');
+  const fireballColor = fireball.querySelector('input[name="fireball-color"]');
+
+  const getNextColor = (colors, currentColor) => {
+    const currentColorIndex = colors.indexOf(currentColor);
+    return currentColorIndex !== colors.length - 1 ? colors[currentColorIndex + 1] : colors[0];
+  };
+
+  const onCoatClick = () => {
+    wizardCoatColor.value = getNextColor(WIZARDS_DATA.COAT_COLORS, wizardCoatColor.value);
+    wizardCoat.style.fill = wizardCoatColor.value;
+  };
+
+  const onEyesClick = () => {
+    wizardEyesColor.value = getNextColor(WIZARDS_DATA.EYES_COLORS, wizardEyesColor.value);
+    wizardEyes.style.fill = wizardEyesColor.value;
+  };
+
+  const onFireballClick = () => {
+    fireballColor.value = getNextColor(WIZARDS_DATA.FIREBALL_COLORS, fireballColor.value);
+    fireball.style.background = fireballColor.value;
+  };
+
+
+  wizardCoat.addEventListener('click', onCoatClick);
+  wizardEyes.addEventListener('click', onEyesClick);
+  fireball.addEventListener('click', onFireballClick);
+};
+
+openingClosingWindowWizards();
+customizeWizard();
