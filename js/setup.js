@@ -181,7 +181,6 @@ const customizeWizard = () => {
     fireball.style.background = fireballColor.value;
   };
 
-
   wizardCoat.addEventListener('click', onCoatClick);
   wizardEyes.addEventListener('click', onEyesClick);
   fireball.addEventListener('click', onFireballClick);
