@@ -68,6 +68,18 @@ window.util = (function () {
     },
     getRandomValue: function (array) {
       return array[Math.floor(Math.random() * array.length)];
+    },
+    showError: function (errorMessage) {
+      let errorContainer = document.createElement('div');
+      let hideError = () => {
+        errorContainer.classList.add('hidden');
+      };
+
+      errorContainer.textContent = errorMessage;
+      errorContainer.classList.add('error');
+      document.body.appendChild(errorContainer);
+
+      setTimeout(hideError, 5000);
     }
   };
 })();

@@ -2,6 +2,10 @@
 
 // customize the wizard
 (function () {
+  const popup = window.util.monipulateElementDOM('.setup');
+  const setupForm = popup.querySelector('.setup-wizard-form');
+  const setupFormBtn = setupForm.querySelector('.setup-submit');
+
   const wizard = window.util.monipulateElementDOM('.setup-wizard-appearance');
   const wizardCoat = wizard.querySelector('.wizard-coat');
   const wizardCoatColor = wizard.querySelector('input[name="coat-color"]');
@@ -29,6 +33,23 @@
     fireballColor.value = getNextColor(window.util.WIZARDS_DATA.FIREBALL_COLORS, fireballColor.value);
     fireball.style.background = fireballColor.value;
   };
+
+  const onFormSendSuccess = () => {
+    popup.classList.add('hidden');
+    setupFormBtn.disabled = false;
+  };
+
+  const onFormSendError = (errorMessage) => {
+    window.util.showError(errorMessage);
+    setupFormBtn.disabled = false;
+  };
+
+  setupForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    setupFormBtn.disabled = true;
+
+    window.backend.save(new FormData(setupForm), onFormSendSuccess, onFormSendError);
+  });
 
   wizardCoat.addEventListener('click', onCoatClick);
   wizardEyes.addEventListener('click', onEyesClick);
