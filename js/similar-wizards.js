@@ -10,8 +10,8 @@
   const createOtherWizards = (template, wizard) => {
     let otherWizard = template.cloneNode(true);
     otherWizard.querySelector('.setup-similar-label').textContent = wizard.name;
-    otherWizard.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    otherWizard.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    otherWizard.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
+    otherWizard.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
 
     return otherWizard;
   };
