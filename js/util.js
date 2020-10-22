@@ -1,29 +1,9 @@
 'use strict';
 
-window.util = (function () {
-  return {
+(function () {
+  window.util = {
     WIZARDS_DATA: {
       WIZARD_COUNT: 4,
-      NAMES: [
-        'Иван',
-        'Хуан Себастьян',
-        'Мария',
-        'Кристоф',
-        'Виктор',
-        'Юлия',
-        'Люпита',
-        'Вашингтон'
-      ],
-      SURNAMES: [
-        'да Марья',
-        'Верон',
-        'Мирабелла',
-        'Вальц',
-        'Онопко',
-        'Топольницкая',
-        'Нионго',
-        'Ирвинг'
-      ],
       COAT_COLORS: [
         'rgb(101, 137, 164)',
         'rgb(241, 43, 107)',
@@ -68,6 +48,18 @@ window.util = (function () {
     },
     getRandomValue: function (array) {
       return array[Math.floor(Math.random() * array.length)];
+    },
+    showError: function (errorMessage) {
+      let errorContainer = document.createElement('div');
+      let hideError = () => {
+        errorContainer.classList.add('hidden');
+      };
+
+      errorContainer.textContent = errorMessage;
+      errorContainer.classList.add('error');
+      document.body.appendChild(errorContainer);
+
+      setTimeout(hideError, 5000);
     }
   };
 })();
