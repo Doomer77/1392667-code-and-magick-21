@@ -22,11 +22,19 @@
   const onCoatClick = () => {
     wizardCoatColor.value = getNextColor(window.util.WIZARDS_DATA.COAT_COLORS, wizardCoatColor.value);
     wizardCoat.style.fill = wizardCoatColor.value;
+
+    window.debounce(() => {
+      window.updateWizards(window.similarWizards);
+    });
   };
 
   const onEyesClick = () => {
     wizardEyesColor.value = getNextColor(window.util.WIZARDS_DATA.EYES_COLORS, wizardEyesColor.value);
     wizardEyes.style.fill = wizardEyesColor.value;
+
+    window.debounce(() => {
+      window.updateWizards(window.similarWizards);
+    });
   };
 
   const onFireballClick = () => {
@@ -34,26 +42,27 @@
     fireball.style.background = fireballColor.value;
   };
 
-  const onFormSendSuccess = () => {
+  const sendForm = () => {
     popup.classList.add('hidden');
     setupFormBtn.disabled = false;
   };
 
-  const onFormSendError = (errorMessage) => {
+  const showError = (errorMessage) => {
     window.util.showError(errorMessage);
     setupFormBtn.disabled = false;
   };
 
-  setupForm.addEventListener('submit', (evt) => {
+  const onFormSubmit = (evt) => {
     evt.preventDefault();
     setupFormBtn.disabled = true;
-
-    window.backend.save(new FormData(setupForm), onFormSendSuccess, onFormSendError);
-  });
+    window.backend.save(new FormData(setupForm), sendForm, showError);
+  };
 
   wizardCoat.addEventListener('click', onCoatClick);
   wizardEyes.addEventListener('click', onEyesClick);
   fireball.addEventListener('click', onFireballClick);
+
+  setupForm.addEventListener('submit', onFormSubmit);
 
 })();
 

@@ -65,6 +65,20 @@ form
     margin-bottom: 0;
 }
 
+.error {
+    z-index: 100;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 5px 10px;
+    font-size: 20px;
+    text-align: center;
+    color: white;
+    background-color: red;
+  }
+  
+
 .hidden
 {
     display: none;
